@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SJTU PT Connectivity</title>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
+    <link rel="stylesheet" href="bar.css">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.11.1/css/all.css"
+    />
+  </head>
+  <body>
+    <div id="fig"></div>
+
+    <p>
+      <input type="button" onclick="singleStep()" value="Step" />
+      <input type="button" onclick="reset()" value="Reset" />
+      <input type="button" onclick="debug()" value="Debug" />
+      <a href="https://github.com/whentojump/sjtu-pt-connectivity">帮我改进本页面</a>
+      <a href="https://www.bittorrent.org/beps/bep_0003.html">The BitTorrent Protocol Specification</a>
+    </p>
+
+    <p>
+      Hello, world!
+    </p>
+
+    <p><b>Settings:</b></p>
+    <ul>
+      <li> <code>peer1</code> 和 <code>peer4</code> “具有公网IP（运营商/CERNET）”。此处泛指两种情况：</li>
+      <ol>
+        <li>主机本身真的就有公网IP；</li>
+        <li>路由器/光猫具有公网IP，通过（人工）设置路由器的NAT端口转发，或（人工/BT客户端自动）设置<a href="https://openconnectivity.org/developer/specifications/upnp-resources/upnp/">UPnP</a>，使得NAT背后的BT客户端在公网“可见”；</li>
+      </ol>
+      <li> <code>peer2</code> 和 <code>peer3</code> 代表其它情况。</li>
+      <li> <code>peer1</code> 和 <code>peer2</code> 位于校外，<code>peer3</code> 和 <code>peer4</code> 位于校内。约2020年4月起，交大防火墙增强了限制，具体是如何限制的并不清楚，姑且将该防火墙视为一层NAT？</li>
+      <li>葡萄 <code class="tracker">tracker</code> 位于校内，但它在交大防火墙“允许”列表中，所以在校外也“可见”。</li>
+      <!-- 这里所有“可见”、“看到”等表述，准确的说法应该是指能收到其他人的入站（inbound）连接？ -->
+    </ul>
+
+    <p>
+      <b>Step 1:</b> BT客户端读取种子文件中的元数据，得知 <code class="tracker">tracker</code> 地址，并尝试连接。如前所述，不论校内外，所有peer都能“看到” <code class="tracker">tracker</code>。
+    </p>
+
+    <p>
+      <b>Step 2:</b> <code class="tracker">tracker</code> 反过来尝试连接BT客户端，而它只能看到“具有公网IP”的 <code>peer1</code> 和 <code>peer4</code> ，于是这两个peer在葡萄中显示为“可连接：<span style="color:green"><b>是</b></span>”，其它peer显示为“可连接：<span style="color:red"><b>否</b></span>”（注：对具有多个客户端的用户，需要在种子的“同伴列表”中查看具体种子的连接情况）。
+    </p>
+
+    <p>
+      <b>Step 3:</b> 所有peer从 <code class="tracker">tracker</code> 获取“可连接”的peer的地址，并尝试连接它们。其中， <code>peer4</code> 虽然属于“可连接”的，但受交大防火墙影响，对校外仍不“可见”。
+    </p>
+
+    <p>
+      <b>Step 4:</b> 之后，能建立连接的peer之间可以<i>双向</i>传输数据（尽管它们之间有可能仅<i>单向</i>“可见”）。
+    </p>
+
+    <script
+      type="text/javascript"
+      src="foo.js"
+    ></script>
+  </body>
+</html>
