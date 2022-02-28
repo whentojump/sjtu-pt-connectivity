@@ -49,11 +49,11 @@ function startNetwork() {
 
   // create an array with nodes
   nodesArray = [
-    { id: 0, label: "tracker", group: "trackers", x: 0,    y: -150 },
-    { id: 1, label: "peer1",   group: "peers",    x: -200, y: -50 },
-    { id: 2, label: "peer2",   group: "peers",    x: -120, y: 120 },
-    { id: 3, label: "peer3",   group: "peers",    x: 120,  y: 120 },
-    { id: 4, label: "peer4",   group: "peers",    x: 200,  y: -50 },
+    { id: 0, label: "tracker", group: "trackers", x:    0, y: -150 },
+    { id: 1, label: "peer1",   group: "peers",    x: -200, y:  -50 },
+    { id: 2, label: "peer2",   group: "peers",    x: -120, y:  120 },
+    { id: 3, label: "peer3",   group: "peers",    x:  120, y:  120 },
+    { id: 4, label: "peer4",   group: "peers",    x:  200, y:  -50 },
   ];
   nodes = new vis.DataSet(nodesArray);
 
